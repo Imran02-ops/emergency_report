@@ -7,10 +7,14 @@ import axios from "axios";
 export default function RegisterPage() {
   const [nama, setNama] = useState("");
   const [noHp, setNoHp] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const handleRegister = async () => {
     try {
+      setLoading(true);
+
       const res = await axios.post(
         "http://localhost/pelaporan-darurat/backend/auth/register.php",
         {
@@ -27,44 +31,77 @@ export default function RegisterPage() {
       }
     } catch {
       alert("Server error");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-600 to-blue-700 flex justify-center items-center px-4">
-      <div className="bg-white w-full max-w-sm rounded-3xl shadow-xl p-8">
-        <h1 className="text-3xl font-bold text-center text-blue-700 mb-2">
-          Register
-        </h1>
+    <main className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
 
-        <p className="text-center text-gray-600 mb-6">
-          Buat akun baru
-        </p>
+      <div className="w-full max-w-md bg-white border shadow-sm rounded-3xl p-8">
 
-        <input
-          type="text"
-          placeholder="Nama lengkap"
-          value={nama}
-          onChange={(e) => setNama(e.target.value)}
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 text-black placeholder:text-gray-400 outline-none focus:border-blue-500"
-        />
+        {/* HEADER */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-slate-900">
+            Register
+          </h1>
 
-        <input
-          type="text"
-          placeholder="Nomor HP"
-          value={noHp}
-          onChange={(e) => setNoHp(e.target.value)}
-          className="w-full border border-gray-300 rounded-xl px-4 py-3 mb-4 text-black placeholder:text-gray-400 outline-none focus:border-blue-500"
-        />
+          <p className="text-slate-500 mt-2 text-sm">
+            Buat akun baru untuk mengakses sistem pelaporan
+          </p>
+        </div>
 
+        {/* FORM */}
+        <div className="space-y-4">
+
+          {/* NAMA */}
+          <div>
+            <label className="text-sm text-slate-700 font-medium">
+              Nama Lengkap
+            </label>
+
+            <input
+              type="text"
+              placeholder="Masukkan nama lengkap"
+              value={nama}
+              onChange={(e) => setNama(e.target.value)}
+              className="w-full mt-2 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+
+          {/* NO HP */}
+          <div>
+            <label className="text-sm text-slate-700 font-medium">
+              Nomor HP
+            </label>
+
+            <input
+              type="text"
+              placeholder="Masukkan nomor HP"
+              value={noHp}
+              onChange={(e) => setNoHp(e.target.value)}
+              className="w-full mt-2 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+
+        </div>
+
+        {/* BUTTON */}
         <button
           onClick={handleRegister}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition"
+          disabled={loading}
+          className={`w-full mt-6 py-3 rounded-2xl font-semibold text-white transition ${
+            loading
+              ? "bg-slate-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
         >
-          Register
+          {loading ? "Memproses..." : "Register"}
         </button>
 
-        <p className="text-center mt-6 text-sm text-gray-700">
+        {/* LOGIN LINK */}
+        <p className="text-center mt-6 text-sm text-slate-600">
           Sudah punya akun?{" "}
           <span
             onClick={() => router.push("/login")}
@@ -73,7 +110,8 @@ export default function RegisterPage() {
             Login
           </span>
         </p>
+
       </div>
-    </div>
+    </main>
   );
 }
