@@ -1,54 +1,99 @@
-import Link from "next/link";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Home() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push("/login");
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [router]);
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-500 relative overflow-hidden flex items-center justify-center px-6">
-      
-      {/* floating icons background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 text-white/20 text-6xl rotate-12">
-          🚑
-        </div>
-        <div className="absolute top-32 right-12 text-white/20 text-5xl -rotate-12">
-          🚔
-        </div>
-        <div className="absolute bottom-32 left-8 text-white/20 text-6xl rotate-6">
-          🔥
-        </div>
-        <div className="absolute bottom-20 right-10 text-white/20 text-5xl -rotate-6">
-          📍
-        </div>
-        <div className="absolute top-1/2 left-16 text-white/10 text-7xl">
-          🚨
-        </div>
-        <div className="absolute top-1/3 right-20 text-white/10 text-6xl">
-          🏥
-        </div>
-      </div>
+    <main className="min-h-screen bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-500 flex items-center justify-center relative overflow-hidden">
 
-      {/* card content */}
-      <div className="relative z-10 text-center max-w-sm">
-        <div className="w-28 h-28 mx-auto rounded-3xl bg-white/20 backdrop-blur-md flex items-center justify-center shadow-2xl mb-8 border border-white/20">
-          <span className="text-6xl">🚨</span>
+      {/* background glow */}
+      <div className="absolute w-96 h-96 bg-cyan-300 blur-3xl opacity-20 rounded-full" />
+
+      {/* content */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 flex flex-col items-center"
+      >
+        {/* LOGO */}
+        <motion.div
+          animate={{
+            scale: [1, 1.06, 1],
+            y: [0, -6, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 2,
+          }}
+          className="mb-8"
+        >
+          <Image
+            src="/logo1.png"
+            alt="Emergency Helpline"
+            width={220}
+            height={220}
+            priority
+            className="object-contain drop-shadow-2xl"
+          />
+        </motion.div>
+
+        {/* TITLE */}
+        <motion.h1
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="text-white text-3xl font-bold tracking-wide"
+        >
+          Emergency Helpline
+        </motion.h1>
+
+        {/* SUBTITLE */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.9 }}
+          transition={{ delay: 0.7 }}
+          className="text-blue-100 text-sm mt-2"
+        >
+          Fast • Accurate • Realtime
+        </motion.p>
+
+        {/* LOADING */}
+        <div className="flex gap-2 mt-8">
+          <motion.div
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ repeat: Infinity, duration: 1 }}
+            className="w-3 h-3 bg-white rounded-full"
+          />
+          <motion.div
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ repeat: Infinity, duration: 1, delay: 0.2 }}
+            className="w-3 h-3 bg-white rounded-full"
+          />
+          <motion.div
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ repeat: Infinity, duration: 1, delay: 0.4 }}
+            className="w-3 h-3 bg-white rounded-full"
+          />
         </div>
 
-        <h1 className="text-4xl font-extrabold text-white leading-tight">
-          Sistem Pelaporan
-          <br />
-          Darurat
-        </h1>
-
-        <p className="mt-4 text-white/90 text-base leading-relaxed">
-          Laporkan kejadian darurat secara cepat, akurat, dan terintegrasi
-          dengan instansi terkait.
+        <p className="text-white/70 text-sm mt-5">
+          Memuat aplikasi...
         </p>
-
-        <Link href="/login">
-          <button className="mt-8 w-full bg-white text-blue-700 py-4 rounded-2xl font-bold text-lg shadow-xl hover:scale-105 transition duration-300">
-            Masuk Aplikasi
-          </button>
-        </Link>
-      </div>
+      </motion.div>
     </main>
   );
 }

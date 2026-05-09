@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function RegisterPage() {
   const [nama, setNama] = useState("");
@@ -37,27 +39,43 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+    <main className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
 
-      <div className="w-full max-w-md bg-white border shadow-sm rounded-3xl p-8">
+      {/* Background */}
+      <Image
+        src="/ff.png"
+        alt="Background"
+        fill
+        priority
+        className="object-cover"
+      />
 
-        {/* HEADER */}
+      {/* Blur overlay */}
+      <div className="absolute inset-0 bg-white/40 backdrop-blur-sm" />
+
+      {/* Register card */}
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl p-8"
+      >
+        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-slate-900">
             Register
           </h1>
 
-          <p className="text-slate-500 mt-2 text-sm">
+          <p className="text-slate-600 mt-2 text-sm">
             Buat akun baru untuk mengakses sistem pelaporan
           </p>
         </div>
 
-        {/* FORM */}
+        {/* Form */}
         <div className="space-y-4">
-
-          {/* NAMA */}
+          {/* Nama */}
           <div>
-            <label className="text-sm text-slate-700 font-medium">
+            <label className="text-sm font-medium text-slate-700">
               Nama Lengkap
             </label>
 
@@ -66,13 +84,13 @@ export default function RegisterPage() {
               placeholder="Masukkan nama lengkap"
               value={nama}
               onChange={(e) => setNama(e.target.value)}
-              className="w-full mt-2 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              className="w-full mt-2 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder:text-slate-400 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          {/* NO HP */}
+          {/* Nomor HP */}
           <div>
-            <label className="text-sm text-slate-700 font-medium">
+            <label className="text-sm font-medium text-slate-700">
               Nomor HP
             </label>
 
@@ -81,13 +99,12 @@ export default function RegisterPage() {
               placeholder="Masukkan nomor HP"
               value={noHp}
               onChange={(e) => setNoHp(e.target.value)}
-              className="w-full mt-2 border border-slate-300 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+              className="w-full mt-2 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder:text-slate-400 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
         </div>
 
-        {/* BUTTON */}
+        {/* Button */}
         <button
           onClick={handleRegister}
           disabled={loading}
@@ -100,8 +117,8 @@ export default function RegisterPage() {
           {loading ? "Memproses..." : "Register"}
         </button>
 
-        {/* LOGIN LINK */}
-        <p className="text-center mt-6 text-sm text-slate-600">
+        {/* Login link */}
+        <p className="text-center mt-6 text-sm text-slate-700">
           Sudah punya akun?{" "}
           <span
             onClick={() => router.push("/login")}
@@ -110,8 +127,7 @@ export default function RegisterPage() {
             Login
           </span>
         </p>
-
-      </div>
+      </motion.div>
     </main>
   );
 }

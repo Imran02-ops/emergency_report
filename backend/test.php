@@ -1,5 +1,4 @@
 <?php
-include 'config/database.php';
-
-echo "Database terkoneksi!";
+include __DIR__ . '/config/database.php';
+echo "database connected";
 ?>
